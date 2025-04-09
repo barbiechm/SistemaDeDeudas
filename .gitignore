@@ -26,4 +26,3 @@ appsettings.Development.json
 appsettings.Local.json
 
 # Build
-/publish/
