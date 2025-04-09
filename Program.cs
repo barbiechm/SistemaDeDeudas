@@ -3,14 +3,7 @@ using SistemaDeDeudas.EFCore;
 using SistemaDeDeudas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureKestrel(options =>
-{
-    var port = Environment.GetEnvironmentVariable("PORT");
-    if (!string.IsNullOrEmpty(port))
-    {
-        options.ListenAnyIP(Int32.Parse(port));
-    }
-});
+
 // Add services to the container.
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddControllers();
@@ -31,7 +24,8 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyOrigin()
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
     });
 });
 
