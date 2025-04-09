@@ -3,7 +3,7 @@ using SistemaDeDeudas.EFCore;
 using SistemaDeDeudas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "localHost";
+
 
 // Add services to the container.
 builder.Services.AddScoped<IClienteService, ClienteService>();
@@ -20,14 +20,16 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; // Usa una convención de nombres
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          policy.WithOrigins("http://localhost:5173") // Especifica el origen permitido
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
                       });
 });
 
@@ -50,8 +52,8 @@ var app = builder.Build();
 
 app.UseRouting();
 
-app.UseCors("localhost");
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
