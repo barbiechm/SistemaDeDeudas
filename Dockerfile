@@ -1,25 +1,27 @@
-# Utiliza la imagen base oficial de .NET SDK para construir la aplicación
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /app
-# Copia el archivo .csproj y restaura las dependencias
+# Fase de construcción - Usa imagen SDK con Ubuntu Chiseled para mejor rendimiento
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS build-env
+WORKDIR /src
+
+# 1. Copia solo los archivos necesarios para restaurar dependencias
+COPY *.sln .
 COPY *.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
 RUN dotnet restore
-# Copia el resto del código fuente
-COPY . ./
-# Publica la aplicación en modo Release
-RUN dotnet publish -c Release -o out
 
-# Utiliza la imagen base oficial de ASP.NET Core Runtime para ejecutar la aplicación
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# 2. Copia el resto del código y construye
+COPY . .
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Fase final - Usa imagen distroless para reducir tamaño y mejorar seguridad
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble-chiseled
 WORKDIR /app
-COPY --from=build-env /app/out ./
 
-# Exponer el puerto 8080
-EXPOSE 8080
-
-# Variables de entorno para configurar el puerto
+# Configura el usuario no-root (mejor práctica de seguridad)
+USER app
 ENV ASPNETCORE_URLS=http://+:8080
 ENV PORT=8080
 ENV ASPNETCORE_ENVIRONMENT=Production
+EXPOSE 8080
 
+COPY --from=build-env --chown=app:app /app .
 ENTRYPOINT ["dotnet", "SistemaDeDeudas.dll"]

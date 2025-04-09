@@ -19,6 +19,12 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    string connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
+    options.UseNpgsql(connectionString);
+});
+
 
 
 builder.Services.AddCors(options =>
