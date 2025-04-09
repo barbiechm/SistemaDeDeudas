@@ -5,10 +5,6 @@ using SistemaDeDeudas.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-
-
-
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,12 +18,23 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173") // Reemplaza con el origen de tu frontend
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+
+    // Puedes agregar más políticas CORS aquí si tienes otros frontends
+});
+
 var connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,11 +42,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-// Agrega esto antes de app.UseAuthorization();
-app.UseCors(builder => builder
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+
+// Aplica la política CORS "AllowLocalhost"
+app.UseCors("AllowLocalhost");
+
 app.UseAuthorization();
 
 app.MapControllers();
