@@ -20,14 +20,12 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost", builder =>
+    options.AddPolicy("AllowAll", builder =>
     {
-        builder.WithOrigins("http://localhost:5173") // Reemplaza con el origen de tu frontend
+        builder.AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
-
-    // Puedes agregar más políticas CORS aquí si tienes otros frontends
 });
 
 // **ELIMINA ESTA LÍNEA:**
@@ -47,7 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Aplica la política CORS "AllowLocalhost"
-app.UseCors("AllowLocalhost");
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
