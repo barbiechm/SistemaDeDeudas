@@ -3,7 +3,7 @@ using SistemaDeDeudas.EFCore;
 using SistemaDeDeudas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "localHost";
 
 // Add services to the container.
 builder.Services.AddScoped<IClienteService, ClienteService>();
@@ -48,11 +48,9 @@ var app = builder.Build();
 
 
 
-app.UseHttpsRedirection(); // Asegúrate de tener esto si estás usando HTTPS
-
 app.UseRouting();
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("localhost");
 
 
 app.UseAuthorization();
