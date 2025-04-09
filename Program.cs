@@ -27,11 +27,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddDefaultPolicy(policy =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+        policy.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
 
@@ -50,14 +50,13 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
+app.UseCors();
 
 app.UseHttpsRedirection(); // Asegúrate de tener esto si estás usando HTTPS
-app.UseStaticFiles();    // Si sirves archivos estáticos
-
+ 
 app.UseRouting();
 
 // **APLICA CORS AQUÍ:**
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
