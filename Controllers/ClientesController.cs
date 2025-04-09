@@ -20,7 +20,7 @@ public class ClientesController : ControllerBase
     }
 
     // GET api/clientes → Obtener todos los clientes
-    [HttpGet("/clientes")]
+    [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var clientes = await _clienteService.GetAllClientes();

@@ -30,7 +30,7 @@ if (string.IsNullOrEmpty(connectionString))
 }
 else
 {
-    Console.WriteLine("Usando la cadena de conexión de la variable de entorno.");
+    Console.WriteLine($"Usando la cadena de conexión de la variable de entorno.{connectionString}");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
