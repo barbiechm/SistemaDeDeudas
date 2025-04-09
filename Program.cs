@@ -20,18 +20,18 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; // Usa una convención de nombres
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+/*
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:5173") // Especifica el origen permitido
+                          policy.WithOrigins("http://localhost:5173") 
                                 .AllowAnyHeader()
-                                .AllowAnyMethod();
+                                .AllowAnyMethod(); 
                       });
-});
+});*/
 
 // **ELIMINA ESTA LÍNEA:**
 // var connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
@@ -49,11 +49,9 @@ var app = builder.Build();
     app.UseSwaggerUI();
 
 
-
 app.UseRouting();
 
-
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
