@@ -11,7 +11,7 @@ public class ClientesController : ControllerBase
 {
     private readonly IClienteService _clienteService;
 
-    // Inyectamos el servicio (patrón Dependency Injection)
+  
     public ClientesController(IClienteService clienteService)
     {
         _clienteService = clienteService;
@@ -22,7 +22,7 @@ public class ClientesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var clientes = await _clienteService.GetAllClientes();
-        return Ok(clientes);  // Devuelve 200 OK con la lista de clientes
+        return Ok(clientes); 
     }
 
     // GET api/clientes/5 → Obtener cliente por ID
@@ -30,11 +30,11 @@ public class ClientesController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var cliente = await _clienteService.GetClienteById(id);
-        if (cliente == null) return NotFound();  // Si no existe, devuelve 404
-        return Ok(cliente);  // Si existe, devuelve 200 OK con el cliente
+        if (cliente == null) return NotFound();  
+        return Ok(cliente);  
     }
 
-    // POST api/clientes → Crear nuevo cliente
+    
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Cliente cliente)
     {
