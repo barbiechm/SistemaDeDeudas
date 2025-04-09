@@ -6,8 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080"; // 8080 es un valor por defecto local
-builder.WebHost.UseUrls($"http://*:{port}");
+
 
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
