@@ -14,11 +14,11 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /app/out ./
 
-# Exponer el puerto 5000 (o el que uses en tu aplicación)
-EXPOSE 5000
+# Exponer el puerto 8080
+EXPOSE 8080
 
 # Variables de entorno para configurar el puerto
-ENV ASPNETCORE_URLS=http://+:5000
-ENV PORT=5000
+ENV ASPNETCORE_URLS=http://+:8080
+ENV PORT=8080
 
 ENTRYPOINT ["dotnet", "SistemaDeDeudas.dll"]
