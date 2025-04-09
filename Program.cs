@@ -3,6 +3,7 @@ using SistemaDeDeudas.EFCore;
 using SistemaDeDeudas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 builder.Services.AddScoped<IClienteService, ClienteService>();
@@ -18,15 +19,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                      });
 });
 
 // **ELIMINA ESTA LÍNEA:**
@@ -44,13 +44,14 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
-app.UseCors();
+
 
 app.UseHttpsRedirection(); // Asegúrate de tener esto si estás usando HTTPS
- 
+
 app.UseRouting();
 
-// **APLICA CORS AQUÍ:**
+app.UseCors(MyAllowSpecificOrigins);
+
 
 app.UseAuthorization();
 
