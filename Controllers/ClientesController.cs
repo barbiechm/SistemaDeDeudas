@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-[ApiController]
 
-[Route("/api/clientes")]  // La ruta base será "api/clientes"
+
+[Route("/api/[controller]")]  // La ruta base será "api/clientes"
+[ApiController]
 public class ClientesController : ControllerBase
 {
     private readonly IClienteService _clienteService;
