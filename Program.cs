@@ -30,9 +30,12 @@ builder.Services.AddCors(options =>
     // Puedes agregar más políticas CORS aquí si tienes otros frontends
 });
 
-var connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
+// **ELIMINA ESTA LÍNEA:**
+// var connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
+
+// Registra el AppDbContext SIN configurar la cadena de conexión aquí.
+// La configuración se manejará en AppDbContext.cs
+builder.Services.AddDbContext<AppDbContext>();
 
 var app = builder.Build();
 
