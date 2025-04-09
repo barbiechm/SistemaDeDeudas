@@ -17,6 +17,7 @@ namespace SistemaDeDeudas.EFCore
             if (!optionsBuilder.IsConfigured)
             {
                 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+                Console.WriteLine($"DATABASE_URL is: {connectionString}"); // <---- AÑADE ESTA LÍNEA
                 if (!string.IsNullOrEmpty(connectionString))
                 {
                     optionsBuilder.UseNpgsql(connectionString);
