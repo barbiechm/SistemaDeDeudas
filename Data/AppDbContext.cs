@@ -32,7 +32,7 @@ namespace SistemaDeDeudas.EFCore
                 {
                     // Fallback para desarrollo si no hay variable de entorno local
 
-                    Console.WriteLine("No hay base disponible");
+                    Console.WriteLine("");
                   
                 }
             }

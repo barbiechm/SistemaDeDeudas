@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-[Route("/api/[controller]")]  // La ruta base será "api/clientes"
+[Route("/api/clientes")]  // La ruta base será "api/clientes"
 [ApiController]
 public class ClientesController : ControllerBase
 {
