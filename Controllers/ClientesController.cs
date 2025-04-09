@@ -11,7 +11,7 @@ public class ClientesController : ControllerBase
 {
     private readonly IClienteService _clienteService;
 
-  
+
     public ClientesController(IClienteService clienteService)
     {
         _clienteService = clienteService;
@@ -22,7 +22,15 @@ public class ClientesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var clientes = await _clienteService.GetAllClientes();
-        return Ok(clientes); 
+        return Ok(clientes);
+    }
+
+
+    [HttpGet("/test")]
+    public async Task<IActionResult> LoQueSea()
+    {
+        return Ok(new { mensaje = "hola" });
+
     }
 
     // GET api/clientes/5 → Obtener cliente por ID

@@ -20,5 +20,6 @@ EXPOSE 8080
 # Variables de entorno para configurar el puerto
 ENV ASPNETCORE_URLS=http://+:8080
 ENV PORT=8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 ENTRYPOINT ["dotnet", "SistemaDeDeudas.dll"]
