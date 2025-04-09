@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaDeDeudas.EFCore;
 using SistemaDeDeudas.Services;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +20,21 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    string connectionString = builder.Configuration.GetConnectionString("DATABASE_URL");
-    options.UseNpgsql(connectionString);
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-    Console.Write(connectionString);
-});
+if (string.IsNullOrEmpty(connectionString))
+{
+    // Si la variable de entorno de Render no está definida, usa la cadena de conexión local
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // ¡Reemplaza con tu cadena local real!
+    Console.WriteLine("Usando la cadena de conexión local.");
+}
+else
+{
+    Console.WriteLine("Usando la cadena de conexión de la variable de entorno.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
 
 
@@ -38,12 +47,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-// **ELIMINA ESTA LÍNEA:**
-// var connectionString = builder.Configuration.GetConnectionString("PostgresSQLConnection");
 
-// Registra el AppDbContext SIN configurar la cadena de conexión aquí.
-// La configuración se manejará en AppDbContext.cs
-builder.Services.AddDbContext<AppDbContext>();
 
 var app = builder.Build();
 
