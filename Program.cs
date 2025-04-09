@@ -44,7 +44,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Aplica la política CORS "AllowLocalhost"
+app.UseHttpsRedirection(); // Asegúrate de tener esto si estás usando HTTPS
+app.UseStaticFiles();    // Si sirves archivos estáticos
+
+app.UseRouting();
+
+// **APLICA CORS AQUÍ:**
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
