@@ -19,9 +19,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DATABASE_URL");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
+{
+    string connectionString = builder.Configuration.GetConnectionString("DATABASE_URL");
+    options.UseNpgsql(connectionString);
+
+    Console.Write(connectionString);
+});
+
 
 
 builder.Services.AddCors(options =>
